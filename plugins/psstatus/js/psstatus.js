@@ -27,7 +27,7 @@
 
 var psstatus_show = false, psstatus_table;
 
-//appendcss("./plugins/PSStatus/css/PSStatus.css");
+//appendcss("phpsysinfo/plugins/PSStatus/css/PSStatus.css");
 
 /**
  * insert content into table
@@ -42,10 +42,10 @@ function psstatus_populate(xml) {
         name = $(this).attr("Name");
         status = parseInt($(this).attr("Status"), 10);
         if (!isNaN(status) && (status === 1)) {
-            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/psstatus/gfx/online.gif\" alt=\"online\" title=\"\" style=\"width:18px;\" />";
+            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"phpsysinfo/plugins/psstatus/gfx/online.gif\" alt=\"online\" title=\"\" style=\"width:18px;\" />";
         }
         else {
-            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/psstatus/gfx/offline.gif\" alt=\"offline\" title=\"\" style=\"width:18px;\" />";
+            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"phpsysinfo/plugins/psstatus/gfx/offline.gif\" alt=\"offline\" title=\"\" style=\"width:18px;\" />";
         }
         psstatus_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, state]);
         psstatus_show = true;
@@ -96,7 +96,7 @@ function psstatus_buildTable() {
 function psstatus_request() {
     $("#Reload_PSStatusTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=PSStatus",
+        url: "phpsysinfo/xml.php?plugin=PSStatus",
         dataType: "xml",
         error: function psstatus_error() {
             $.jGrowl("Error loading XML document for Plugin PSStatus!");

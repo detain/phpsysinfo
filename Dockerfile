@@ -13,7 +13,7 @@ RUN apt-get update
 RUN apt-get install -y apache2 php7.0 php7.0-xml php7.0-mbstring libapache2-mod-php7.0 git pciutils
 #RUN apt-get install -y apache2 php5 git pciutils
 
-RUN git clone https://github.com/phpsysinfo/phpsysinfo.git /var/www/html/phpsysinfo
+RUN git clone https://github.com/detain/phpsysinfo.git /var/www/html/phpsysinfo
 RUN cp /var/www/html/phpsysinfo/phpsysinfo.ini.new /var/www/html/phpsysinfo/phpsysinfo.ini
 #RUN cat /var/www/html/phpsysinfo/phpsysinfo.ini.new | sed 's/^LOAD_BAR=false/LOAD_BAR=true/' >/var/www/html/phpsysinfo/phpsysinfo.ini
 

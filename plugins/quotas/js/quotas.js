@@ -27,7 +27,7 @@
 
 var quotas_show = false, quotas_table;
 
-//appendcss("./plugins/Quotas/css/Quotas.css");
+//appendcss("phpsysinfo/plugins/Quotas/css/Quotas.css");
 
 /**
  * insert content into table

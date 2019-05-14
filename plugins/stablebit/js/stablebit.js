@@ -87,60 +87,60 @@ function stablebit_buildTable(xml) {
             if ($(this).attr("IsHot") !== undefined) {
                 ishot = parseInt($(this).attr("IsHot"), 10);
                 if (!isNaN(ishot) && (ishot === 1)) {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(9, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(9, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 else {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(9, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(9, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 tree.push(index);
             }
             if ($(this).attr("IsSmartWarning") !== undefined) {
                 issmartwarning = parseInt($(this).attr("IsSmartWarning"), 10);
                 if (!isNaN(issmartwarning) && (issmartwarning === 1)) {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(10, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(10, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 else {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(10, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(10, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 tree.push(index);
             }
             if ($(this).attr("IsSmartPastThresholds") !== undefined) {
                 issmartpastthresholds = parseInt($(this).attr("IsSmartPastThresholds"), 10);
                 if (!isNaN(issmartpastthresholds) && (issmartpastthresholds === 1)) {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(11, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(11, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 else {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(11, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(11, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 tree.push(index);
             }
             if ($(this).attr("IsSmartPastAdvisoryThresholds") !== undefined) {
                 issmartpastadvisorythresholds = parseInt($(this).attr("IsSmartPastAdvisoryThresholds"), 10);
                 if (!isNaN(issmartpastadvisorythresholds) && (issmartpastadvisorythresholds === 1)) {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(12, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(12, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 else {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(12, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(12, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 tree.push(index);
             }
             if ($(this).attr("IsSmartFailurePredicted") !== undefined) {
                 issmartfailurepredicted = parseInt($(this).attr("IsSmartFailurePredicted"), 10);
                 if (!isNaN(issmartfailurepredicted) && (issmartfailurepredicted === 1)) {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(13, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(13, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 else {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(13, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(13, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 tree.push(index);
             }
             if ($(this).attr("IsDamaged") !== undefined) {
                 isdamaged = parseInt($(this).attr("IsDamaged"), 10);
                 if (!isNaN(isdamaged) && (isdamaged === 1)) {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(14, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(14, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/on.gif\" alt=\"on\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 else {
-                    html += "      <tr><td><span class=\"treespan\">" + genlang(14, "StableBit") + "</span></td><td><img src=\"./plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
+                    html += "      <tr><td><span class=\"treespan\">" + genlang(14, "StableBit") + "</span></td><td><img src=\"phpsysinfo/plugins/stablebit/gfx/off.gif\" alt=\"off\" title=\"\" style=\"width:18px;\" /></td></tr>\n";
                 }
                 tree.push(index);
             }
@@ -156,14 +156,14 @@ function stablebit_buildTable(xml) {
     $("#Plugin_StableBit").append(html);
 
     $("#Plugin_StableBitTable").jqTreeTable(tree, {
-        openImg: "./gfx/treeTable/tv-collapsable.gif",
-        shutImg: "./gfx/treeTable/tv-expandable.gif",
-        leafImg: "./gfx/treeTable/tv-item.gif",
-        lastOpenImg: "./gfx/treeTable/tv-collapsable-last.gif",
-        lastShutImg: "./gfx/treeTable/tv-expandable-last.gif",
-        lastLeafImg: "./gfx/treeTable/tv-item-last.gif",
-        vertLineImg: "./gfx/treeTable/vertline.gif",
-        blankImg: "./gfx/treeTable/blank.gif",
+        openImg: "phpsysinfo/gfx/treeTable/tv-collapsable.gif",
+        shutImg: "phpsysinfo/gfx/treeTable/tv-expandable.gif",
+        leafImg: "phpsysinfo/gfx/treeTable/tv-item.gif",
+        lastOpenImg: "phpsysinfo/gfx/treeTable/tv-collapsable-last.gif",
+        lastShutImg: "phpsysinfo/gfx/treeTable/tv-expandable-last.gif",
+        lastLeafImg: "phpsysinfo/gfx/treeTable/tv-item-last.gif",
+        vertLineImg: "phpsysinfo/gfx/treeTable/vertline.gif",
+        blankImg: "phpsysinfo/gfx/treeTable/blank.gif",
         collapse: closed,
         column: 0,
         striped: true,
@@ -179,7 +179,7 @@ function stablebit_buildTable(xml) {
 function stablebit_request() {
     $("#Reload_StableBitTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=StableBit",
+        url: "phpsysinfo/xml.php?plugin=StableBit",
         dataType: "xml",
         error: function stablebit_error() {
             $.jGrowl("Error loading XML document for Plugin StableBit!");

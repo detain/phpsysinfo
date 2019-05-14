@@ -33,7 +33,7 @@ var langxml = [], filesystemTable, current_language = "", plugin_liste = [], blo
  */
 function PNGload(png) {
     if (typeof(png.ifixpng)==='function') { //IE6 PNG fix
-        png.ifixpng('./gfx/blank.gif');
+        png.ifixpng('phpsysinfo/gfx/blank.gif');
     }
 }
 
@@ -114,7 +114,7 @@ function round(x, n) {
 function switchStyle(template) {
     $('link[rel*=style][title]').each(function getTitle(i) {
         if (this.getAttribute('title') === 'PSI_Template') {
-            this.setAttribute('href', './templates/' + template + ".css");
+            this.setAttribute('href', 'phpsysinfo/templates/' + template + ".css");
         }
     });
 }
@@ -130,12 +130,12 @@ function switchStyle(template) {
 function getLanguage(plugin, langarrId) {
     var getLangUrl = "";
     if (current_language) {
-        getLangUrl = 'language/language.php?lang=' + current_language;
+        getLangUrl = 'phpsysinfo/language/language.php?lang=' + current_language;
         if (plugin) {
             getLangUrl += "&plugin=" + plugin;
         }
     } else {
-        getLangUrl = 'language/language.php';
+        getLangUrl = 'phpsysinfo/language/language.php';
         if (plugin) {
             getLangUrl += "?plugin=" + plugin;
         }
@@ -691,7 +691,7 @@ function refreshVitals(xml) {
         $("#s_hostname").html(hostname);
         $("#s_ip").html(ip);
         $("#s_kernel").html(kernel);
-        $("#s_distro").html("<img src='./gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
+        $("#s_distro").html("<img src='phpsysinfo/gfx/images/" + icon + "' alt='Icon' title='' style='width:16px;height:16px;vertical-align:middle;' onload='PNGload($(this));' />&nbsp;" + distro); //onload IE6 PNG fix
         $("#s_uptime").html(uptime);
         if ((datetimeFormat !== undefined) && (datetimeFormat.toLowerCase() === "locale")) {
             $("#s_lastboot").html(lastboot.toLocaleString());
@@ -922,14 +922,14 @@ function refreshHardware(xml) {
     $("#hardware").append(html);
 
     $("#HardwareTree").jqTreeTable(tree, {
-        openImg: "./gfx/treeTable/tv-collapsable.gif",
-        shutImg: "./gfx/treeTable/tv-expandable.gif",
-        leafImg: "./gfx/treeTable/tv-item.gif",
-        lastOpenImg: "./gfx/treeTable/tv-collapsable-last.gif",
-        lastShutImg: "./gfx/treeTable/tv-expandable-last.gif",
-        lastLeafImg: "./gfx/treeTable/tv-item-last.gif",
-        vertLineImg: "./gfx/treeTable/vertline.gif",
-        blankImg: "./gfx/treeTable/blank.gif",
+        openImg: "phpsysinfo/gfx/treeTable/tv-collapsable.gif",
+        shutImg: "phpsysinfo/gfx/treeTable/tv-expandable.gif",
+        leafImg: "phpsysinfo/gfx/treeTable/tv-item.gif",
+        lastOpenImg: "phpsysinfo/gfx/treeTable/tv-collapsable-last.gif",
+        lastShutImg: "phpsysinfo/gfx/treeTable/tv-expandable-last.gif",
+        lastLeafImg: "phpsysinfo/gfx/treeTable/tv-item-last.gif",
+        vertLineImg: "phpsysinfo/gfx/treeTable/vertline.gif",
+        blankImg: "phpsysinfo/gfx/treeTable/blank.gif",
         collapse: closed,
         column: 0,
         striped: true,
@@ -1031,14 +1031,14 @@ function refreshNetwork(xml) {
     $("#network").append(html0+html1+html);
 
     if (isinfo) $("#NetworkTree").jqTreeTable(tree, {
-        openImg: "./gfx/treeTable/tv-collapsable.gif",
-        shutImg: "./gfx/treeTable/tv-expandable.gif",
-        leafImg: "./gfx/treeTable/tv-item.gif",
-        lastOpenImg: "./gfx/treeTable/tv-collapsable-last.gif",
-        lastShutImg: "./gfx/treeTable/tv-expandable-last.gif",
-        lastLeafImg: "./gfx/treeTable/tv-item-last.gif",
-        vertLineImg: "./gfx/treeTable/vertline.gif",
-        blankImg: "./gfx/treeTable/blank.gif",
+        openImg: "phpsysinfo/gfx/treeTable/tv-collapsable.gif",
+        shutImg: "phpsysinfo/gfx/treeTable/tv-expandable.gif",
+        leafImg: "phpsysinfo/gfx/treeTable/tv-item.gif",
+        lastOpenImg: "phpsysinfo/gfx/treeTable/tv-collapsable-last.gif",
+        lastShutImg: "phpsysinfo/gfx/treeTable/tv-expandable-last.gif",
+        lastLeafImg: "phpsysinfo/gfx/treeTable/tv-item-last.gif",
+        vertLineImg: "phpsysinfo/gfx/treeTable/vertline.gif",
+        blankImg: "phpsysinfo/gfx/treeTable/blank.gif",
         collapse: closed,
         column: 0,
         striped: true,
@@ -1154,14 +1154,14 @@ function refreshMemory(xml) {
     $("#memory").append(html);
 
     $("#MemoryTree").jqTreeTable(tree, {
-        openImg: "./gfx/treeTable/tv-collapsable.gif",
-        shutImg: "./gfx/treeTable/tv-expandable.gif",
-        leafImg: "./gfx/treeTable/tv-item.gif",
-        lastOpenImg: "./gfx/treeTable/tv-collapsable-last.gif",
-        lastShutImg: "./gfx/treeTable/tv-expandable-last.gif",
-        lastLeafImg: "./gfx/treeTable/tv-item-last.gif",
-        vertLineImg: "./gfx/treeTable/vertline.gif",
-        blankImg: "./gfx/treeTable/blank.gif",
+        openImg: "phpsysinfo/gfx/treeTable/tv-collapsable.gif",
+        shutImg: "phpsysinfo/gfx/treeTable/tv-expandable.gif",
+        leafImg: "phpsysinfo/gfx/treeTable/tv-item.gif",
+        lastOpenImg: "phpsysinfo/gfx/treeTable/tv-collapsable-last.gif",
+        lastShutImg: "phpsysinfo/gfx/treeTable/tv-expandable-last.gif",
+        lastLeafImg: "phpsysinfo/gfx/treeTable/tv-item-last.gif",
+        vertLineImg: "phpsysinfo/gfx/treeTable/vertline.gif",
+        blankImg: "phpsysinfo/gfx/treeTable/blank.gif",
         collapse: closed,
         column: 0,
         striped: true,
@@ -1283,7 +1283,7 @@ function refreshTemp(xml) {
             _limit = formatTemp(limit, xml);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#temperatureTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + formatTemp(value, xml) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1320,7 +1320,7 @@ function refreshVoltage(xml) {
             _min = round(min, 2) + "&nbsp;" + genlang(62);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#voltageTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(62) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
@@ -1354,7 +1354,7 @@ function refreshFans(xml) {
             _min = round(min,0) + "&nbsp;" + genlang(63);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#fansTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value,0) + "&nbsp;" + genlang(63) + "</td><td class=\"right\">" + _min + "</td></tr>");
         values = true;
     });
@@ -1388,7 +1388,7 @@ function refreshPower(xml) {
             _limit = round(limit, 2) + "&nbsp;" + genlang(103);
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#powerTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(103) + "</td><td class=\"right\">" + _limit + "</td></tr>");
         values = true;
     });
@@ -1427,7 +1427,7 @@ function refreshCurrent(xml) {
 
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#currentTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + round(value, 2) + "&nbsp;" + genlang(106) + "</td><td class=\"right\">" + _min + "</td><td class=\"right\">" + _max + "</td></tr>");
         values = true;
     });
@@ -1459,7 +1459,7 @@ function refreshOther(xml) {
 
         event = $(this).attr("Event");
         if (event !== undefined)
-            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
+            label += " <img style=\"vertical-align: middle; width:16px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/>";
         $("#otherTable tbody").append("<tr><td>" + label + "</td><td class=\"right\">" + value + "</td></tr>");
         values = true;
     });
@@ -1585,14 +1585,14 @@ function refreshUps(xml) {
 
     if (values) {
         $("#UPSTree").jqTreeTable(tree, {
-            openImg: "./gfx/treeTable/tv-collapsable.gif",
-            shutImg: "./gfx/treeTable/tv-expandable.gif",
-            leafImg: "./gfx/treeTable/tv-item.gif",
-            lastOpenImg: "./gfx/treeTable/tv-collapsable-last.gif",
-            lastShutImg: "./gfx/treeTable/tv-expandable-last.gif",
-            lastLeafImg: "./gfx/treeTable/tv-item-last.gif",
-            vertLineImg: "./gfx/treeTable/vertline.gif",
-            blankImg: "./gfx/treeTable/blank.gif",
+            openImg: "phpsysinfo/gfx/treeTable/tv-collapsable.gif",
+            shutImg: "phpsysinfo/gfx/treeTable/tv-expandable.gif",
+            leafImg: "phpsysinfo/gfx/treeTable/tv-item.gif",
+            lastOpenImg: "phpsysinfo/gfx/treeTable/tv-collapsable-last.gif",
+            lastShutImg: "phpsysinfo/gfx/treeTable/tv-expandable-last.gif",
+            lastLeafImg: "phpsysinfo/gfx/treeTable/tv-item-last.gif",
+            vertLineImg: "phpsysinfo/gfx/treeTable/vertline.gif",
+            blankImg: "phpsysinfo/gfx/treeTable/blank.gif",
             collapse: closed,
             column: 0,
             striped: true,
@@ -1610,7 +1610,7 @@ function refreshUps(xml) {
  */
 function reload(initiate) {
     $.ajax({
-        url: 'xml.php',
+        url: 'phpsysinfo/xml.php',
         dataType: 'xml',
         error: function error() {
             if ((typeof(initiate) === 'boolean') && (initiate === true)) {
@@ -1901,7 +1901,7 @@ function full_addr(ip_string) {
 function buildBlock(plugin, translationid, reload) {
     var block = "", reloadpic = "";
     if (reload) {
-        reloadpic = "<img id=\"Reload_" + plugin + "Table\" src=\"./gfx/reload.gif\" alt=\"reload\" title=\"reload\" style=\"vertical-align:middle;float:right;cursor:pointer;border:0px;width:16px\" />&nbsp;";
+        reloadpic = "<img id=\"Reload_" + plugin + "Table\" src=\"phpsysinfo/gfx/reload.gif\" alt=\"reload\" title=\"reload\" style=\"vertical-align:middle;float:right;cursor:pointer;border:0px;width:16px\" />&nbsp;";
     }
     block += "<div id=\"panel_" + plugin + "\" style=\"display:none;\">\n";
     block += "<div id=\"Plugin_" + plugin + "\" class=\"plugin\" style=\"display:none;\">\n";

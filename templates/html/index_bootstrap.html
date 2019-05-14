@@ -7,16 +7,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>phpSysInfo <?php echo PSI_VERSION_STRING ?></title>
-    <link href="gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
-    <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap.min.css">
+    <link href="phpsysinfo/gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/vendor/bootstrap.min.css">
     <!--[if IE 9]>
-        <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie9.css">
-        <script type="text/JavaScript" src="./js.php?name=bootstrap-ie9"></script>
+        <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/vendor/bootstrap-ie9.css">
+        <script type="text/JavaScript" src="phpsysinfo/js.php?name=bootstrap-ie9"></script>
     <![endif]-->
     <!--[if IE 8]>
-        <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie8.css">
-        <script type="text/JavaScript" src="./js.php?name=html5shiv-printshiv"></script>
-        <script type="text/JavaScript" src="./js.php?name=bootstrap-ie8"></script>
+        <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/vendor/bootstrap-ie8.css">
+        <script type="text/JavaScript" src="phpsysinfo/js.php?name=html5shiv-printshiv"></script>
+        <script type="text/JavaScript" src="phpsysinfo/js.php?name=bootstrap-ie8"></script>
     <![endif]-->
     <!--[if lt IE 8]>
         <script type="text/javascript">
@@ -24,8 +24,8 @@
             die();
         </script>
     <![endif]-->
-    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" id="PSI_CSS_Fix">
-    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" id="PSI_Template">
+    <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/misc/emptyfile.css" id="PSI_CSS_Fix">
+    <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/misc/emptyfile.css" id="PSI_Template">
 </head>
 
 <body>
@@ -39,12 +39,12 @@
 <input type="hidden" id="hideBootstrapLoader" value="<?php echo $hideBootstrapLoader;?>"/>
 <input type="hidden" id="blocks" value="<?php echo $blocks;?>"/>
 
-<div class="navbar fixed-top">
+<div class="navbar fixed-top" style="display: none;">
     <div class="container">
         <div class="navbar-brand">
-            <img class="logo" alt="" src="gfx/logo_32.gif" title="reload"/> phpSysInfo <sup><a title="phpSysInfo - <?php echo PSI_VERSION_STRING; ?>" class="psihref" href="http://phpsysinfo.sourceforge.net/" target="psihref"><?php echo PSI_VERSION; ?></a></sup>
-            <img id="loader" alt="" src="gfx/ajax-loader.gif" style="visibility:hidden;"/>
-            <img class="errorbutton" id="errorbutton" alt="" src="gfx/attention.gif" title="errors" data-toggle="modal" data-target="#errors-dialog" style="visibility:hidden;"/>
+            <img class="logo" alt="" src="phpsysinfo/gfx/logo_32.gif" title="reload"/> phpSysInfo <sup><a title="phpSysInfo - <?php echo PSI_VERSION_STRING; ?>" class="psihref" href="http://phpsysinfo.sourceforge.net/" target="psihref"><?php echo PSI_VERSION; ?></a></sup>
+            <img id="loader" alt="" src="phpsysinfo/gfx/ajax-loader.gif" style="visibility:hidden;"/>
+            <img class="errorbutton" id="errorbutton" alt="" src="phpsysinfo/gfx/attention.gif" title="errors" data-toggle="modal" data-target="#errors-dialog" style="visibility:hidden;"/>
         </div>
         <div id="select" class="select" style="display:none;">
             <span class="lang_044" style="display:none;">Template</span>
@@ -461,19 +461,22 @@ if (file_exists(PSI_APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstr
 
 </div>
 
-<script type="text/JavaScript" src="./js.php?name=jquery"></script>
-<script type="text/JavaScript" src="./js.php?name=console-shim"></script>
-<script type="text/JavaScript" src="./js.php?name=transparency"></script>
-<script type="text/JavaScript" src="./js.php?name=sorttable"></script>
-<script type="text/JavaScript" src="./js.php?name=jquery.treegrid"></script>
-<script type="text/JavaScript" src="./js.php?name=bootstrap-util"></script>
-<script type="text/JavaScript" src="./js.php?name=bootstrap-modal"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery"></script>
+<script type="text/JavaScript" src="https://rawgithub.com/nodeca/pako/master/dist/pako.js"></script>
+<script type="text/JavaScript" src="https://my.interserver.net/js/swfobject.js"></script>
+<script type="text/JavaScript" src="https://my.interserver.net/js/web_socket.js"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=console-shim"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=transparency"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=sorttable"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery.treegrid"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=bootstrap-util"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=bootstrap-modal"></script>
 
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
-<script type="text/JavaScript" src="./js.php?plugin=<?php echo $plugin ?>&amp;name=<?php echo $plugin ?>_bootstrap"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?plugin=<?php echo $plugin ?>&amp;name=<?php echo $plugin ?>_bootstrap"></script>
 <?php endforeach; ?>
 
-<script type="text/JavaScript" src="./js.php?name=phpsysinfo_bootstrap"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=phpsysinfo_bootstrap"></script>
 
 </body>
 </html>

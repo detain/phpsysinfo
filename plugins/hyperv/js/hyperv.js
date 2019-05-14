@@ -27,7 +27,7 @@
 
 var hyperv_show = false, hyperv_table;
 
-//appendcss("./plugins/hyperv/css/hyperv.css");
+//appendcss("phpsysinfo/plugins/hyperv/css/hyperv.css");
 
 /**
  * insert content into table
@@ -42,10 +42,10 @@ function hyperv_populate(xml) {
         name = $(this).attr("Name");
         status = parseInt($(this).attr("State"), 10);
         if (!isNaN(status) && (status === 2)) {
-            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/hyperv/gfx/online.gif\" alt=\"online\" title=\"\" style=\"width:18px;\" />";
+            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"phpsysinfo/plugins/hyperv/gfx/online.gif\" alt=\"online\" title=\"\" style=\"width:18px;\" />";
         }
         else {
-            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"./plugins/hyperv/gfx/offline.gif\" alt=\"offline\" title=\"\" style=\"width:18px;\" />";
+            state = "<span style=\"display:none;\">" + status.toString() + "</span><img src=\"phpsysinfo/plugins/hyperv/gfx/offline.gif\" alt=\"offline\" title=\"\" style=\"width:18px;\" />";
         }
         hyperv_table.fnAddData(["<span style=\"display:none;\">" + name + "</span>" + name, state]);
         hyperv_show = true;
@@ -96,7 +96,7 @@ function hyperv_buildTable() {
 function hyperv_request() {
     $("#Reload_HyperVTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=HyperV",
+        url: "phpsysinfo/xml.php?plugin=HyperV",
         dataType: "xml",
         error: function hyperv_error() {
             $.jGrowl("Error loading XML document for Plugin HyperV!");

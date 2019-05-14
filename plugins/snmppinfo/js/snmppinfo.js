@@ -108,14 +108,14 @@ function snmppinfo_buildTable(xml) {
     $("#Plugin_SNMPPInfo").append(html);
 
     $("#Plugin_SNMPPInfoTable").jqTreeTable(tree, {
-        openImg: "./gfx/treeTable/tv-collapsable.gif",
-        shutImg: "./gfx/treeTable/tv-expandable.gif",
-        leafImg: "./gfx/treeTable/tv-item.gif",
-        lastOpenImg: "./gfx/treeTable/tv-collapsable-last.gif",
-        lastShutImg: "./gfx/treeTable/tv-expandable-last.gif",
-        lastLeafImg: "./gfx/treeTable/tv-item-last.gif",
-        vertLineImg: "./gfx/treeTable/vertline.gif",
-        blankImg: "./gfx/treeTable/blank.gif",
+        openImg: "phpsysinfo/gfx/treeTable/tv-collapsable.gif",
+        shutImg: "phpsysinfo/gfx/treeTable/tv-expandable.gif",
+        leafImg: "phpsysinfo/gfx/treeTable/tv-item.gif",
+        lastOpenImg: "phpsysinfo/gfx/treeTable/tv-collapsable-last.gif",
+        lastShutImg: "phpsysinfo/gfx/treeTable/tv-expandable-last.gif",
+        lastLeafImg: "phpsysinfo/gfx/treeTable/tv-item-last.gif",
+        vertLineImg: "phpsysinfo/gfx/treeTable/vertline.gif",
+        blankImg: "phpsysinfo/gfx/treeTable/blank.gif",
         collapse: closed,
         column: 0,
         striped: true,

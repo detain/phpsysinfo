@@ -1,3 +1,12 @@
+if (typeof console == "undefined") {    this.console = { log: function (msg) {  } };}
+// If the browser does not support websocket, will use this flash automatically simulate websocket protocol, this process is transparent to developers
+WEB_SOCKET_SWF_LOCATION = "/swf/WebSocketMain.swf";
+// Open flash websocket debug
+WEB_SOCKET_DEBUG = true;
+
+var ws;
+
+
 var langxml = [], langarr = [], current_language = "", plugins = [], blocks = [], plugin_liste = [],
      showCPUListExpanded, showCPUInfoExpanded, showNetworkInfosExpanded, showNetworkActiveSpeed, showCPULoadCompact, oldnetwork = [], refrTimer;
 
@@ -51,7 +60,7 @@ function readCookie(name) {
  * @param {String} template template that should be activated
  */
 function switchStyle(template) {
-    $("#PSI_Template")[0].setAttribute('href', 'templates/' + template + "_bootstrap.css");
+    $("#PSI_Template")[0].setAttribute('href', 'phpsysinfo/templates/' + template + "_bootstrap.css");
 }
 
 /**
@@ -65,12 +74,12 @@ function switchStyle(template) {
 function getLanguage(plugin, langarrId) {
     var getLangUrl = "";
     if (current_language) {
-        getLangUrl = 'language/language.php?lang=' + current_language;
+        getLangUrl = 'phpsysinfo/language/language.php?lang=' + current_language;
         if (plugin) {
             getLangUrl += "&plugin=" + plugin;
         }
     } else {
-        getLangUrl = 'language/language.php';
+        getLangUrl = 'phpsysinfo/language/language.php';
         if (plugin) {
             getLangUrl += "?plugin=" + plugin;
         }
@@ -200,69 +209,127 @@ function changeSpanLanguage(plugin) {
     }
 }
 
+function getQuery(q) {
+   return (window.location.search.match(new RegExp('[?&]' + q + '=([^&]+)')) || [, null])[1];
+}
+
+function connect() {
+    //ws = new ReconnectingWebSocket("wss://"+document.domain+":7272");
+    //ws = new ReconnectingWebSocket("wss://my3.interserver.net:7272");
+    //ws = new WebSocket("wss://"+document.domain+":7272");
+    ws = new WebSocket("wss://my3.interserver.net:7272");
+    /*
+        var msg_data = {
+            "type":"running",
+            "id":"'.$run_id.'",
+            "stdin":data
+        }
+        ws.send(JSON.stringify(msg_data));
+        */
+    ws.onopen = function() {
+        //console.log("connect");
+        var msg_data = {
+            "type": "login",
+            "ima": "admin",
+            "session_id": readCookie("sessionid"),
+            "room_id": 1
+        };
+        msg_data = JSON.stringify(msg_data);
+        ws.send(msg_data);
+    };
+    ws.onclose = function() {
+        //console.log("disconnect");
+    };
+    ws.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        switch(data.type){
+            case "login":
+                console.log("got login message "+e.data);
+                if (data.self == true)
+                reload(true);
+                break;
+            case "phpsysinfo":
+                if (data.host != getQuery('id')) {
+                    alert(data.host+' != '+getQuery('id'));
+                    break;
+                }
+                var strData     = atob(data.data); // Decode base64 (convert ascii to binary)
+                var charData    = strData.split('').map(function(x){return x.charCodeAt(0);}); // Convert binary string to character-number array
+                var binData     = new Uint8Array(charData); // Turn number array into byte-array
+                var gzdata        = pako.inflate(binData); // Pako magic
+                var strData     = String.fromCharCode.apply(null, new Uint16Array(gzdata)); // Convert gunzipped byteArray back to ascii string:
+                if (strData == '')
+                    data.data = '';
+                else
+                    data.data = JSON.parse(strData);
+                console.log("got phpsysinfo message:");
+                console.log(data);
+                if (typeof data.params.plugin != "undefined") {
+                    try {
+                        // dynamic call
+                        window['renderPlugin_' + data.params.plugin](data.data);
+                        changeLanguage(this.pluginname);
+                        plugin_liste.pushIfNotExist(this.pluginname);
+                    }
+                    catch (err) {
+                    }
+                    renderErrors(data.data);
+                } else {
+                    console.log(data);
+//            data_dbg = data;
+
+    if ((typeof(data.initiate) === 'boolean') && (data.data.Options !== undefined) && (data.data.Options["@attributes"] !== undefined) && ((refrtime = data.data.Options["@attributes"].refresh) !== undefined) && (refrtime !== "0")) {
+                    if ((data.initiate === false) && (typeof(refrTimer) === 'number'))
+                        clearInterval(refrTimer);
+                    refrTimer = setInterval(reload, refrtime);
+            }
+    renderErrors(data.data);
+    renderVitals(data.data);
+    renderHardware(data.data);
+    renderMemory(data.data);
+    renderFilesystem(data.data);
+    renderNetwork(data.data);
+    renderVoltage(data.data);
+    renderTemperature(data.data);
+    renderFans(data.data);
+    renderPower(data.data);
+    renderCurrent(data.data);
+    renderOther(data.data);
+    renderUPS(data.data);
+            changeLanguage();
+
+                    for (var i = 0; i < plugins.length; i++) {
+                        plugin_request(plugins[i]);
+                        if ($("#reload_"+plugins[i]).length > 0) {
+                            $("#reload_"+plugins[i]).attr("title", "reload");
+                        }
+
+                    }
+
+                    if ((typeof(data.initiate) === 'boolean') && (data.initiate === true)) {
+                        for (var j = 0; j < plugins.length; j++) {
+                            if ($("#reload_"+plugins[j]).length > 0) {
+                                $("#reload_"+plugins[j]).click(clickfunction());
+                            }
+                        }
+                    }
+                }
+                    break;
+        }
+    };
+}
+
 function reload(initiate) {
     $("#errorbutton").css("visibility", "hidden");
     $("#errors").empty();
-    $.ajax({
-        dataType: "json",
-        url: "xml.php?json",
-        error: function(jqXHR, status, thrownError) {
-            if ((status === "parsererror") && (typeof(xmlDoc = $.parseXML(jqXHR.responseText)) === "object")) {
-                var errs = 0;
-                try {
-                    $(xmlDoc).find("Error").each(function() {
-                        $("#errors").append("<li><b>"+$(this)[0].attributes.Function.nodeValue+"</b> - "+$(this)[0].attributes.Message.nodeValue.replace(/\n/g, "<br>")+"</li><br>");
-                        errs++;
-                    });
-                }
-                catch (err) {
-                }
-                if (errs > 0) {
-                    $("#errorbutton").css("visibility", "visible");
-                }
-            }
-        },
-        success: function (data) {
-//            console.log(data);
-//            data_dbg = data;
-            if ((typeof(initiate) === 'boolean') && (data.Options !== undefined) && (data.Options["@attributes"] !== undefined) && ((refrtime = data.Options["@attributes"].refresh) !== undefined) && (refrtime !== "0")) {
-                    if ((initiate === false) && (typeof(refrTimer) === 'number')) {
-                        clearInterval(refrTimer);
-                    }
-                    refrTimer = setInterval(reload, refrtime);
-            }
-            renderErrors(data);
-            renderVitals(data);
-            renderHardware(data);
-            renderMemory(data);
-            renderFilesystem(data);
-            renderNetwork(data);
-            renderVoltage(data);
-            renderTemperature(data);
-            renderFans(data);
-            renderPower(data);
-            renderCurrent(data);
-            renderOther(data);
-            renderUPS(data);
-            changeLanguage();
-        }
-    });
+    var msg_data = {
+        "type":"phpsysinfo",
+        "initiate": initiate,
+        "host":getQuery('id'),
+        "params":{},
+    };
+    ws.send(JSON.stringify(msg_data));
 
-    for (var i = 0; i < plugins.length; i++) {
-        plugin_request(plugins[i]);
-        if ($("#reload_"+plugins[i]).length > 0) {
-            $("#reload_"+plugins[i]).attr("title", "reload");
-        }
-
-    }
-
-    if ((typeof(initiate) === 'boolean') && (initiate === true)) {
-        for (var j = 0; j < plugins.length; j++) {
-            if ($("#reload_"+plugins[j]).length > 0) {
-                $("#reload_"+plugins[j]).click(clickfunction());
-            }
-        }
-    }
 }
 
 function clickfunction(){
@@ -276,27 +343,20 @@ function clickfunction(){
  * load the plugin json via ajax
  */
 function plugin_request(pluginname) {
-
-    $.ajax({
-         dataType: "json",
-         url: "xml.php?plugin=" + pluginname + "&json",
-         pluginname: pluginname,
-         success: function (data) {
-            try {
-                // dynamic call
-                window['renderPlugin_' + this.pluginname](data);
-                changeLanguage(this.pluginname);
-                plugin_liste.pushIfNotExist(this.pluginname);
-            }
-            catch (err) {
-            }
-            renderErrors(data);
-        }
-    });
+       var msg_data = {
+               "type":"phpsysinfo",
+               "host":getQuery('id'),
+               "params":{
+                       "plugin": pluginname
+               },
+       };
+       ws.send(JSON.stringify(msg_data));
 }
 
-
-$(document).ready(function () {
+//$(document).ready(function () {
+$(function(){
+    connect();
+    
     var old_template = null, cookie_template = null, cookie_language = null, plugtmp = "", blocktmp = "", ua = null, useragent = navigator.userAgent;
 
     if ($("#hideBootstrapLoader").val().toString()!=="true") {
@@ -309,16 +369,16 @@ $(document).ready(function () {
     }
 
     if (useragent.match(/Safari\/(\d+)\.[\d\.]+$/) !== null) {
-        $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
+        $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-safari5.css');
     } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+$/))  !== null) {
         if (ua[1]<=15) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox15.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-firefox15.css');
         } else if (ua[1]<=20) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox20.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-firefox20.css');
         } else if (ua[1]<=27) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox27.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-firefox27.css');
         } else if (ua[1]==28) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox28.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-firefox28.css');
         }
     }
         
@@ -419,8 +479,9 @@ $(document).ready(function () {
         });
     }
 
-    reload(true);
-
+    // moved call to after the ws connection is established and logged in
+    //reload(true);
+    
     $(".logo").click(function () {
         reload(false);
     });
@@ -578,7 +639,7 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
+                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="phpsysinfo/gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
             }
         },
         LoadAvg: {
@@ -642,6 +703,7 @@ function renderVitals(data) {
     if (data.Vitals["@attributes"].Processes === undefined) {
         $("#tr_Processes").hide();
     }
+    if (typeof $('#vitals').render == "function")
     $('#vitals').render(data.Vitals["@attributes"], directives);
 
     if ((data.Vitals !== undefined) && (data.Vitals["@attributes"] !== undefined) && ((hostname = data.Vitals["@attributes"].Hostname) !== undefined) && ((ip = data.Vitals["@attributes"].IPAddr) !== undefined)) {
@@ -815,7 +877,8 @@ function renderHardware(data) {
 
 
     if ((data.Hardware["@attributes"] !== undefined) && (data.Hardware["@attributes"].Name !== undefined)) {
-        $('#hardware-Machine').render(data.Hardware["@attributes"]);
+        if (typeof $('#hardware-Machine').render == "function")
+                $('#hardware-Machine').render(data.Hardware["@attributes"]);
     }
 
     try {
@@ -1221,7 +1284,7 @@ function renderVoltage(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1263,7 +1326,7 @@ function renderTemperature(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1306,7 +1369,7 @@ function renderFans(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1349,7 +1412,7 @@ function renderPower(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1398,7 +1461,7 @@ function renderCurrent(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1430,7 +1493,7 @@ function renderOther(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };

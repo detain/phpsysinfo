@@ -27,7 +27,7 @@
 
 var smart_show = false, smart_table;
 
-//appendcss("./plugins/SMART/css/SMART.css");
+//appendcss("phpsysinfo/plugins/SMART/css/SMART.css");
 
 /**
  * fill the plugin block with table structure
