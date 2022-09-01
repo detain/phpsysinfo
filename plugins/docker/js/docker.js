@@ -124,7 +124,7 @@ function docker_buildTable() {
 function docker_request() {
     $("#Reload_DockerTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=docker",
+        url: "phpsysinfo/xml.php?plugin=docker",
         dataType: "xml",
         error: function docker_error() {
             $.jGrowl("Error loading XML document for Plugin docker!");

@@ -27,7 +27,7 @@
 
 var quotas_show = false, quotas_table;
 
-//appendcss("./plugins/Quotas/css/Quotas.css");
+//appendcss("phpsysinfo/plugins/Quotas/css/Quotas.css");
 
 /**
  * insert content into table
@@ -125,7 +125,7 @@ function quotas_buildTable() {
 function quotas_request() {
     $("#Reload_QuotasTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=Quotas",
+        url: "phpsysinfo/xml.php?plugin=Quotas",
         dataType: "xml",
         error: function quotas_error() {
             $.jGrowl("Error loading XML document for Plugin quotas!");

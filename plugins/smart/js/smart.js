@@ -27,7 +27,7 @@
 
 var smart_show = false, smart_table;
 
-//appendcss("./plugins/SMART/css/SMART.css");
+//appendcss("phpsysinfo/plugins/SMART/css/SMART.css");
 
 /**
  * fill the plugin block with table structure
@@ -97,7 +97,7 @@ function smart_populate(xml) {
 
         event = $(this).attr("event");
         if (event !== undefined)
-            display.push("<span style=\"display:none;\">" + name + "</span><table style=\"width:0;float:right;*float:right;border-spacing:0;\"><tbody><tr><td style=\"padding:0;\">" + name +" </td><td style=\"padding:0;\"><img style=\"vertical-align:middle;width:16px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/></td></tr></tbody></table>");
+            display.push("<span style=\"display:none;\">" + name + "</span><table style=\"width:0;float:right;*float:right;border-spacing:0;\"><tbody><tr><td style=\"padding:0;\">" + name +" </td><td style=\"padding:0;\"><img style=\"vertical-align:middle;width:16px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\""+event+"\"/></td></tr></tbody></table>");
         else
             display.push("<span style=\"display:none;\">" + name + "</span>" + name);
 
@@ -125,7 +125,7 @@ function smart_populate(xml) {
 function smart_request() {
     $("#Reload_SMARTTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=SMART",
+        url: "phpsysinfo/xml.php?plugin=SMART",
         dataType: "xml",
         error: function smart_error() {
             $.jGrowl("Error loading XML document for Plugin SMART");

@@ -72,7 +72,7 @@ That's it.  Restart your webserver (if you changed php.ini), and voila.
 
 #### Docker container installation
 
-- `sudo docker build -t phpsysinfo github.com/phpsysinfo/phpsysinfo#main`
+- `sudo docker build -t phpsysinfo github.com/detain/phpsysinfo#main`
 - `sudo docker run -i -p 8080:80 -t phpsysinfo`
 - go to http://localhost:8080/phpsysinfo/
 
@@ -112,7 +112,7 @@ First make sure you've read this file completely, especially the
 "INSTALLATION AND CONFIGURATION" section.  If it still doesn't work then
 you can:
 
-Ask for help or submit a bug on Github (https://github.com/phpsysinfo/phpsysinfo/issues)
+Ask for help or submit a bug on Github (https://github.com/detain/phpsysinfo/issues)
 
 ***!! If you have any problems, please set `DEBUG` to true in `phpsysinfo.ini`
 and include any error messages in your bug report / help request !!***
@@ -121,7 +121,7 @@ OTHER NOTES
 -----------
 
 If you have a great idea or want to help out, just create a pull request with your change proposal
-in the [phpSysInfo](https://github.com/phpsysinfo/phpsysinfo) repository.
+in the [phpSysInfo](https://github.com/detain/phpsysinfo) repository.
 
 LICENSING
 ---------

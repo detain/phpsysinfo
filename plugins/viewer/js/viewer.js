@@ -84,7 +84,7 @@ function viewer_buildTable() {
 function viewer_request() {
     $("#Reload_viewerTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=viewer",
+        url: "phpsysinfo/xml.php?plugin=viewer",
         dataType: "xml",
         error: function viewer_error() {
             $.jGrowl("Error loading XML document for Plugin Viewer!");

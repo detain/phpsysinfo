@@ -105,7 +105,7 @@ An example implementation is the pingtest plugin, which is shipped with phpSysIn
         `'reload_' + pluginname + 'Table' ("reload_pingtestTable")`.
         Everything that then is done to get the html output out of the xml is up
         to the author.
-        To get the xml document the ajax request url is `'xml.php?plugin=' +
+        To get the xml document the ajax request url is `'phpsysinfo/xml.php?plugin=' +
         pluginname (xml.php?plugin=pingtest)`. This xml includes only the xml
         from the plugin nothing more.
         The last two executed commands should/must be the translation call and

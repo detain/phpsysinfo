@@ -17,10 +17,10 @@
                 </title>
                 <style type="text/css">
                     <xsl:comment>
-                        @import url("templates/phpsysinfo.css");
+                        @import url("phpsysinfo/templates/phpsysinfo.css");
                     </xsl:comment>
                 </style>
-                <link href="gfx/favicon.gif" rel="shortcut icon" />
+                <link href="phpsysinfo/gfx/favicon.gif" rel="shortcut icon" />
             </head>
             <body>
                 <xsl:for-each select="$XML">

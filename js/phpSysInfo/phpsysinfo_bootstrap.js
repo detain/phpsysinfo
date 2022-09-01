@@ -51,7 +51,7 @@ function readCookie(name) {
  * @param {String} template template that should be activated
  */
 function switchStyle(template) {
-    $("#PSI_Template")[0].setAttribute('href', 'templates/' + template + "_bootstrap.css");
+    $("#PSI_Template")[0].setAttribute('href', 'phpsysinfo/templates/' + template + "_bootstrap.css");
 }
 
 /**
@@ -65,12 +65,12 @@ function switchStyle(template) {
 function getLanguage(plugin, langarrId) {
     var getLangUrl = "";
     if (current_language) {
-        getLangUrl = 'language/language.php?lang=' + current_language;
+        getLangUrl = 'phpsysinfo/language/language.php?lang=' + current_language;
         if (plugin) {
             getLangUrl += "&plugin=" + plugin;
         }
     } else {
-        getLangUrl = 'language/language.php';
+        getLangUrl = 'phpsysinfo/language/language.php';
         if (plugin) {
             getLangUrl += "?plugin=" + plugin;
         }
@@ -211,7 +211,7 @@ function reload(initiate) {
     $("#errors").empty();
     $.ajax({
         dataType: "json",
-        url: "xml.php?json",
+        url: "phpsysinfo/xml.php?json",
         error: function(jqXHR, status, thrownError) {
             if ((status === "parsererror") && (typeof(xmlDoc = $.parseXML(jqXHR.responseText)) === "object")) {
                 var errs = 0;
@@ -287,7 +287,7 @@ function plugin_request(pluginname) {
 
     $.ajax({
          dataType: "json",
-         url: "xml.php?plugin=" + pluginname + "&json",
+         url: "phpsysinfo/xml.php?plugin=" + pluginname + "&json",
          pluginname: pluginname,
          success: function (data) {
             try {
@@ -325,31 +325,31 @@ $(document).ready(function () {
 
     if ((ua=useragent.match(/Version\/(\d+)\.[\d\.]+ (Mobile\/\S+ )?Safari\//)) !== null) {
         if (ua[1]<=5) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari5.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-safari5.css');
         } else if (ua[1]<=8) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-safari8.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-safari8.css');
         }
     } else if ((ua=useragent.match(/Firefox\/(\d+)\.[\d\.]+/))  !== null) {
         if (ua[1]<=15) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox15.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-firefox15.css');
         } else if (ua[1]<=20) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox20.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-firefox20.css');
         } else if (ua[1]<=27) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox27.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-firefox27.css');
         } else if (ua[1]==28) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-firefox28.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-firefox28.css');
         }
     } else if ((ua=useragent.match(/Midori\/(\d+)\.?(\d+)?/))  !== null) {
         if ((ua[1]==0) && (ua.length==3) && (ua[2]<=4)) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori04.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-midori04.css');
         } else if ((ua[1]==0) && (ua.length==3) && (ua[2]==5)) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-midori05.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-midori05.css');
         }
     } else if ((ua=useragent.match(/Chrome\/(\d+)\.[\d\.]+/))  !== null) {
         if (ua[1]<=25) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome25.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-chrome25.css');
         } else if (ua[1]<=28) {
-            $("#PSI_CSS_Fix")[0].setAttribute('href', 'templates/vendor/bootstrap-chrome28.css');
+            $("#PSI_CSS_Fix")[0].setAttribute('href', 'phpsysinfo/templates/vendor/bootstrap-chrome28.css');
         }
     }
 
@@ -599,12 +599,12 @@ function renderVitals(data) {
         },
         Distro: {
             html: function () {
-                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
+                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="phpsysinfo/gfx/images/' + this.Distroicon + '" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.Distro + '</td></tr></table>';
             }
         },
         OS: {
             html: function () {
-                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="gfx/images/' + this.OS + '.png" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.OS + '</td></tr></table>';
+                return '<table class="borderless table-hover table-nopadding" style="width:100%;"><tr><td style="padding-right:4px!important;width:32px;"><img src="phpsysinfo/gfx/images/' + this.OS + '.png" alt="" style="width:32px;height:32px;" /></td><td style="vertical-align:middle;">' + this.OS + '</td></tr></table>';
             }
         },
         LoadAvg: {
@@ -1337,7 +1337,7 @@ function renderVoltage(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1379,7 +1379,7 @@ function renderTemperature(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1433,7 +1433,7 @@ function renderFans(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1476,7 +1476,7 @@ function renderPower(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1525,7 +1525,7 @@ function renderCurrent(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };
@@ -1569,7 +1569,7 @@ function renderOther(data) {
                 if (this.Event === undefined)
                     return this.Label;
                 else
-                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"./gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
+                    return this.Label + " <img style=\"vertical-align:middle;width:20px;\" src=\"phpsysinfo/gfx/attention.gif\" alt=\"!\" title=\"" + this.Event + "\"/>";
             }
         }
     };

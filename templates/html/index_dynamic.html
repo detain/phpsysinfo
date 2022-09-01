@@ -9,28 +9,28 @@
     <noscript>
       <meta http-equiv="refresh" content="2; URL=index.php?disp=static" />
     </noscript>
-    <link rel="shortcut icon" href="gfx/favicon.gif" />
-    <link type="text/css" rel="stylesheet" href="./templates/misc/emptyfile.css" title="PSI_Template" />
-    <link type="text/css" rel="stylesheet" href="./templates/plugin/nyroModal.full.css" />
-    <link type="text/css" rel="stylesheet" href="./templates/plugin/jquery.jgrowl.css" />
-    <link type="text/css" rel="stylesheet" href="./templates/plugin/jquery.dataTables.css" />
-    <link type="text/css" rel="stylesheet" href="./templates/plugin/jquery.treeTable.css" />
+    <link rel="shortcut icon" href="phpsysinfo/gfx/favicon.gif" />
+    <link type="text/css" rel="stylesheet" href="phpsysinfo/templates/misc/emptyfile.css" title="PSI_Template" />
+    <link type="text/css" rel="stylesheet" href="phpsysinfo/templates/plugin/nyroModal.full.css" />
+    <link type="text/css" rel="stylesheet" href="phpsysinfo/templates/plugin/jquery.jgrowl.css" />
+    <link type="text/css" rel="stylesheet" href="phpsysinfo/templates/plugin/jquery.dataTables.css" />
+    <link type="text/css" rel="stylesheet" href="phpsysinfo/templates/plugin/jquery.treeTable.css" />
 
-    <script type="text/JavaScript" src="./js.php?name=jquery"></script>
-    <script type="text/JavaScript" src="./js.php?name=jquery.dataTables"></script>
-    <script type="text/JavaScript" src="./js.php?name=jquery.nyroModal"></script>
-    <script type="text/JavaScript" src="./js.php?name=jquery.jgrowl"></script>
-    <script type="text/JavaScript" src="./js.php?name=jquery.timer"></script>
-    <script type="text/JavaScript" src="./js.php?name=jquery.treeTable"></script>
+    <script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery"></script>
+    <script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery.dataTables"></script>
+    <script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery.nyroModal"></script>
+    <script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery.jgrowl"></script>
+    <script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery.timer"></script>
+    <script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery.treeTable"></script>
 <!--[if lte IE 6]>
-    <script type="text/JavaScript" src="./js.php?name=jquery.ifixpng"></script>
+    <script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery.ifixpng"></script>
 <![endif]-->
-    <script type="text/JavaScript" src="./js.php?name=phpsysinfo"></script>
+    <script type="text/JavaScript" src="phpsysinfo/js.php?name=phpsysinfo"></script>
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
-    <?php if (file_exists("./plugins/".$plugin."/css/".$plugin.".css")) : ?>
-      <link type="text/css" rel="stylesheet" href="./plugins/<?php echo $plugin ?>/css/<?php echo $plugin ?>.css" />
+    <?php if (file_exists("phpsysinfo/plugins/".$plugin."/css/".$plugin.".css")) : ?>
+      <link type="text/css" rel="stylesheet" href="phpsysinfo/plugins/<?php echo $plugin ?>/css/<?php echo $plugin ?>.css" />
     <?php endif; ?>
-    <script type="text/JavaScript" src="./js.php?plugin=<?php echo $plugin ?>"></script>
+    <script type="text/JavaScript" src="phpsysinfo/js.php?plugin=<?php echo $plugin ?>"></script>
 <?php endforeach; ?>
     <title>phpSysInfo <?php echo PSI_VERSION_STRING ?></title>
   </head>
@@ -47,7 +47,7 @@
     <div id="loader">
       <h1>
         <a href="#errors" class="nyroModal">
-          <img id="loadwarn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="./gfx/attention.gif" title="errors" alt="errors" />
+          <img id="loadwarn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="phpsysinfo/gfx/attention.gif" title="errors" alt="errors" />
         </a>
       Loading... please wait!</h1>
       <div id="container">
@@ -55,7 +55,7 @@
         <p>Your navigator does not support JavaScript (or JavaScript is not activated).</p>
         <p>In approximatively 2 seconds you will be redirected to the static version of phpSysInfo.</p>
         <p>&nbsp;</p>
-        <p><a href="index.php?disp=static">Click here to switch to the static version</a></p>
+        <p><a href="phpsysinfo/index.php?disp=static">Click here to switch to the static version</a></p>
         </noscript>
       </div>
     </div>
@@ -67,7 +67,7 @@
     <div id="output" style="display:none;">
       <h1>
         <a href="#errors" class="nyroModal">
-          <img id="warn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="./gfx/attention.gif" title="errors" alt="errors" />
+          <img id="warn" style="vertical-align: middle; display:none; border:0px; width:32px;" src="phpsysinfo/gfx/attention.gif" title="errors" alt="errors" />
         </a>
         <span id="title">
           <span class="lang_001">System information</span>

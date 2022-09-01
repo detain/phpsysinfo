@@ -6,6 +6,13 @@ body {
     background-color: #fff;
 }
 
+body>.container {
+     padding-left: 0px;
+     padding-right: 0px;
+     margin-left: 0px;
+     margin-right: 0px;
+}
+
 wbr {
     display: inline-block;
 }

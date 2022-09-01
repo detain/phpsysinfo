@@ -90,7 +90,7 @@ function updatenotifier_buildTable() {
 function updatenotifier_request() {
     $("#Reload_UpdateNotifierTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=UpdateNotifier",
+        url: "phpsysinfo/xml.php?plugin=UpdateNotifier",
         dataType: "xml",
         error: function () {
             $.jGrowl("Error loading XML document for Plugin UpdateNotifier!");

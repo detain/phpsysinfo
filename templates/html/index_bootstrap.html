@@ -9,18 +9,18 @@
     <meta name="description" content="phpSysInfo is a customizable PHP script that displays information about your system nicely">
     <meta name="author" content="phpSysInfo organization at GitHub">
     <title>phpSysInfo <?php echo PSI_VERSION_STRING ?></title>
-    <link href="gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="phpsysinfo/gfx/favicon.ico" type="image/x-icon" rel="shortcut icon">
     <noscript><meta http-equiv="refresh" content="2; URL=index.php?disp=static"/></noscript>
-    <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap.min.css">
-    <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-webapp.css">
+    <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/vendor/bootstrap.min.css">
+    <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/vendor/bootstrap-webapp.css">
     <!--[if IE 9]>
-        <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie9.css">
-        <script type="text/JavaScript" src="./js.php?name=bootstrap-ie9"></script>
+        <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/vendor/bootstrap-ie9.css">
+        <script type="text/JavaScript" src="phpsysinfo/js.php?name=bootstrap-ie9"></script>
     <![endif]-->
     <!--[if IE 8]>
-        <link rel="stylesheet" type='text/css' href="templates/vendor/bootstrap-ie8.css">
-        <script type="text/JavaScript" src="./js.php?name=html5shiv-printshiv"></script>
-        <script type="text/JavaScript" src="./js.php?name=bootstrap-ie8"></script>
+        <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/vendor/bootstrap-ie8.css">
+        <script type="text/JavaScript" src="phpsysinfo/js.php?name=html5shiv-printshiv"></script>
+        <script type="text/JavaScript" src="phpsysinfo/js.php?name=bootstrap-ie8"></script>
     <![endif]-->
     <!--[if lt IE 8]>
         <script type="text/javascript">
@@ -28,8 +28,8 @@
             die();
         </script>
     <![endif]-->
-    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" id="PSI_CSS_Fix">
-    <link rel="stylesheet" type='text/css' href="templates/misc/emptyfile.css" id="PSI_Template">
+    <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/misc/emptyfile.css" id="PSI_CSS_Fix">
+    <link rel="stylesheet" type='text/css' href="phpsysinfo/templates/misc/emptyfile.css" id="PSI_Template">
 </head>
 
 <body>
@@ -44,12 +44,12 @@
 <input type="hidden" id="hideTotals" value="<?php echo $hideTotals;?>"/>
 <input type="hidden" id="blocks" value="<?php echo $blocks;?>"/>
 
-<div class="navbar fixed-top">
+<div class="navbar fixed-top" style="display: none;">
     <div class="container" style="display:block;">
         <div style="display:table-cell">
             <div class="navbar-brand">
-                <img class="logo" alt="" src="gfx/logo_32.gif" title="reload"/>&thinsp;phpSys<a title="phpSysInfo - <?php echo PSI_VERSION_STRING; ?>" class="psihref" href="http://phpsysinfo.sourceforge.net/" target="psihref">Info</a><div class="errorbutton" id="errorbutton" title="errors" data-target="#errors-dialog" style="display:inline-block;background:url('gfx/attention.gif') no-repeat center;width:49px;height:32px;visibility:hidden;">
-                    <img id="loader" alt="" src="gfx/ajax-loader.gif" style="margin:0 3px 0 3px;visibility:hidden;"/>
+                <img class="logo" alt="" src="phpsysinfo/gfx/logo_32.gif" title="reload"/>&thinsp;phpSys<a title="phpSysInfo - <?php echo PSI_VERSION_STRING; ?>" class="psihref" href="http://phpsysinfo.sourceforge.net/" target="psihref">Info</a><div class="errorbutton" id="errorbutton" title="errors" data-target="#errors-dialog" style="display:inline-block;background:url('phpsysinfo/gfx/attention.gif') no-repeat center;width:49px;height:32px;visibility:hidden;">
+                    <img id="loader" alt="" src="phpsysinfo/gfx/ajax-loader.gif" style="margin:0 3px 0 3px;visibility:hidden;"/>
                 </div>
             </div>
         </div>
@@ -93,7 +93,7 @@ endforeach;
             <p>Your navigator does not support JavaScript (or JavaScript is not activated).</p>
             <p>In approximatively 2 seconds you will be redirected to the static version of phpSysInfo.</p>
             <p>&nbsp;</p>
-            <p><a href="index.php?disp=static">Click here to switch to the static version</a></p>
+            <p><a href="phpsysinfo/index.php?disp=static">Click here to switch to the static version</a></p>
         </noscript>
     </div>
 </div>
@@ -484,19 +484,19 @@ if (file_exists(PSI_APP_ROOT . '/plugins/' . $plugin . '/' . $plugin . '_bootstr
 
 </div>
 
-<script type="text/JavaScript" src="./js.php?name=jquery"></script>
-<script type="text/JavaScript" src="./js.php?name=console-shim"></script>
-<script type="text/JavaScript" src="./js.php?name=transparency"></script>
-<script type="text/JavaScript" src="./js.php?name=sorttable"></script>
-<script type="text/JavaScript" src="./js.php?name=jquery.treegrid"></script>
-<script type="text/JavaScript" src="./js.php?name=bootstrap-util"></script>
-<script type="text/JavaScript" src="./js.php?name=bootstrap-modal"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=console-shim"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=transparency"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=sorttable"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=jquery.treegrid"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=bootstrap-util"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=bootstrap-modal"></script>
 
 <?php foreach (CommonFunctions::getPlugins() as $plugin) : ?>
-<script type="text/JavaScript" src="./js.php?plugin=<?php echo $plugin ?>&amp;name=<?php echo $plugin ?>_bootstrap"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?plugin=<?php echo $plugin ?>&amp;name=<?php echo $plugin ?>_bootstrap"></script>
 <?php endforeach; ?>
 
-<script type="text/JavaScript" src="./js.php?name=phpsysinfo_bootstrap"></script>
+<script type="text/JavaScript" src="phpsysinfo/js.php?name=phpsysinfo_bootstrap"></script>
 
 </body>
 </html>

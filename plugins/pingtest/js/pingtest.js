@@ -100,7 +100,7 @@ function pingtest_buildTable() {
 function pingtest_request() {
     $("#Reload_PingTestTable").attr("title", "reload");
     $.ajax({
-        url: "xml.php?plugin=PingTest",
+        url: "phpsysinfo/xml.php?plugin=PingTest",
         dataType: "xml",
         error: function pingtest_error() {
             $.jGrowl("Error loading XML document for Plugin PingTest!");
