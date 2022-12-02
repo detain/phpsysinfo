@@ -953,7 +953,7 @@ class Linux extends OS
                            && ($_revi !== null)) { // Raspberry Pi detection (instead of 'cat /proc/device-tree/model')
                             if ($raslist === null) $raslist = @parse_ini_file(PSI_APP_ROOT."/data/raspberry.ini", true);
                             $oldmach = $this->sys->getMachine();
-                            if (($oldmach !== '') && preg_match("/^raspberrypi rpi(,.+)/" , $oldmach, $machbuf)) {
+                            if (($oldmach !== '') && preg_match("/^raspberrypi rpi(,.+)/", $oldmach, $machbuf)) {
                                 $oldmachend = $machbuf[1];
                             } else {
                                  $oldmachend = '';
@@ -1344,7 +1344,7 @@ class Linux extends OS
             for ($i = 0; $i < $total; $i++) {
                 if (CommonFunctions::rfts($i2cdevices[$i], $buf, 1, 4096, false) && (trim($buf) != "")) {
                     $dev = new HWDevice();
-                    $dev->setName(trim($buf));
+                    $dev->setName(trim($buf,": \n\r\t\v\x00"));
                     $this->sys->setI2cDevices($dev);
                 }
             }
@@ -1387,9 +1387,9 @@ class Linux extends OS
                         $nsize[$locid] = $i - $nlocate[$locid];
                     }
                 } elseif ($count > 1) {
-                    if (isset($nlocate[2]) && isset($nsize[2])) {
+                    if (isset($nlocate[2]) && isset($nsize[2]) && (($nvname=trim(substr($buf, $nlocate[2], $nsize[2]))) !== '')) {
                         $dev = new HWDevice();
-                        $dev->setName(trim(substr($buf, $nlocate[2], $nsize[2])));
+                        $dev->setName($nvname);
                         if (defined('PSI_SHOW_DEVICES_INFOS') && (PSI_SHOW_DEVICES_INFOS)) {
                             if (isset($nlocate[4]) && isset($nsize[4])) {
                                 if (preg_match('/\/\s*([0-9\.]+)\s*(B|KB|MB|GB|TB|PB)$/', str_replace(',', '.', trim(substr($buf, $nlocate[4], $nsize[4]))), $tmpbuf)) {
@@ -1972,6 +1972,10 @@ class Linux extends OS
                                                     $distr2.=' ('.$dat_buf[1].')';
                                                 }
                                                 $this->sys->setDistribution($this->sys->getDistribution()." ".$distr2);
+                                            } elseif (preg_match('/^VERSION=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
+                                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                                            } elseif (preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
+                                                $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                                             } else {
                                                 $distr2=trim(substr($buf, 0, strpos($buf, "\n")));
                                                 if (($distr2 !== null) && ($distr2 != "")) {
@@ -2062,7 +2066,8 @@ class Linux extends OS
                         $this->sys->setDistributionIcon($list['Tails']['Image']);
                     } else {
                         if (preg_match('/^PRETTY_NAME=["\']?([^"\'\r\n]+)/m', $buf, $desc_buf)
-                           && !preg_match('/\$/', $desc_buf[1])) { // if is not defined by variable
+                           && !preg_match('/\$/', $desc_buf[1]) // if is not defined by variable
+                           && (trim($id_buf[1])!==trim($desc_buf[1]))) {
                             $this->sys->setDistribution(trim($desc_buf[1]));
                         } else {
                             if (isset($list[trim($id_buf[1])]['Name'])) {
@@ -2074,6 +2079,9 @@ class Linux extends OS
                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
                             } elseif (preg_match('/^VERSION_ID=["\']?([^"\'\r\n]+)/m', $buf, $vers_buf)) {
                                 $this->sys->setDistribution($this->sys->getDistribution()." ".trim($vers_buf[1]));
+                            }
+                            if (preg_match('/^VERSION_CODENAME="?([^"\r\n]+)/m', $buf, $vers_buf)) {
+                                $this->sys->setDistribution($this->sys->getDistribution()." (".trim($vers_buf[1]).")");
                             }
                         }
                         if (isset($list[trim($id_buf[1])]['Image'])) {
