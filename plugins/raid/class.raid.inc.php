@@ -1827,7 +1827,7 @@ class Raid extends PSI_Plugin
                     }
                     if ($cnr >= 0) {
                         $stage = 0;
-                        $lines = preg_split('/\r?\n/', $buff[2], -1, PREG_SPLIT_NO_EMPTY);
+                        $lines = preg_split('/\r?\n/', preg_replace("/, \r?\n/", ", ", $buff[2]), -1, PREG_SPLIT_NO_EMPTY);
                         foreach ($lines as $line) {
                             if (($line = trim($line)) !== '') {
                                 $parts = preg_split("/ = /", $line);
@@ -1857,7 +1857,7 @@ class Raid extends PSI_Plugin
                                             $values[] = "";
                                         }
                                         $diffc = count($values) - count($args);
-                                        if (($diffc >= 0) && (count($values) > 6)) {
+                                        if (($diffc >= 0) && (count($values) > 4)) {
                                             $valarr = array();
                                             for ($vnr = 0; $vnr < count($args); $vnr++) {
                                                 if (($diffc == 0) || (($args[$vnr] !== "Name") && ($args[$vnr] !== "Model"))) {
@@ -1867,16 +1867,18 @@ class Raid extends PSI_Plugin
                                                     break;
                                                 }
                                             }
-                                            if (($diffc > 0) && ($vnr < count($args))) for ($enr = count($values)-1; $enr >= 0; $enr--) {
-                                                if (($args[$enr-$diffc] !== "Name") && ($args[$enr-$diffc] !== "Model")) {
-                                                    $valarr[$args[$enr-$diffc]] = $values[$enr];
-                                                } else {
-                                                    break;
+                                            if (($diffc > 0) && ($vnr < count($args))) {
+                                                for ($enr = count($values)-1; $enr >= 0; $enr--) {
+                                                    if (($args[$enr-$diffc] !== "Name") && ($args[$enr-$diffc] !== "Model")) {
+                                                        $valarr[$args[$enr-$diffc]] = $values[$enr];
+                                                    } else {
+                                                        break;
+                                                    }
                                                 }
-                                            }
-                                            if (($diffc > 0) && ($vnr < $enr)) {
-                                                for ($xnr = $vnr + 1; $xnr <= $enr; $xnr++) {
-                                                    $valarr[$args[$vnr]] .= " ".$values[$xnr];
+                                                if ($vnr < $enr) {
+                                                    for ($xnr = $vnr + 1; $xnr <= $enr; $xnr++) {
+                                                        $valarr[$args[$vnr]] .= " ".$values[$xnr];
+                                                    }
                                                 }
                                             }
                                             $carr[$cnr][$buff[1]]['values'][] = $valarr;
@@ -1906,16 +1908,25 @@ class Raid extends PSI_Plugin
                             } else {
                                 $this->_result[$prog][$uname]['status'] = 'Unknown';
                             }
-                            if (isset($controller["BBU_Info"]["values"][0])) {
-                                if (isset($controller["BBU_Info"]["values"][0]["State"])) {
-                                    if (($state = $controller["BBU_Info"]["values"][0]["State"]) === "Optimal") {
-                                        $this->_result[$prog][$uname]['battery'] = "good";
-                                    } else {
-                                        $this->_result[$prog][$uname]['battery'] = $state;
-                                    }
+                            if (isset($controller["HwCfg"]["BBU"]) && ($controller["HwCfg"]["BBU"] === "Present")) {
+                                if (isset($controller["BBU_Info"]["values"][0])) {
+                                    $bbuinfo = "BBU_Info";
+                                } elseif (isset($controller["Cachevault_Info"]["values"][0])) {
+                                    $bbuinfo = "Cachevault_Info";
+                                } else {
+                                    $bbuinfo = "";
                                 }
-                                if (isset($controller["BBU_Info"]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/", $controller["BBU_Info"]["values"][0]["Temp"], $batt)) {
-                                    $this->_result[$prog][$uname]['batttemp'] = $batt[1];
+                                if ($bbuinfo !== "") {
+                                    if (isset($controller[$bbuinfo]["values"][0]["State"])) {
+                                        if (($state = $controller[$bbuinfo]["values"][0]["State"]) === "Optimal") {
+                                            $this->_result[$prog][$uname]['battery'] = "good";
+                                        } else {
+                                            $this->_result[$prog][$uname]['battery'] = $state;
+                                        }
+                                    }
+                                    if (isset($controller[$bbuinfo]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/", $controller[$bbuinfo]["values"][0]["Temp"], $batt)) {
+                                        $this->_result[$prog][$uname]['batttemp'] = $batt[1];
+                                    }
                                 }
                             }
                             if (isset($controller["Capabilities"]["RAID Level Supported"])) $this->_result[$prog][$uname]['supported'] = $controller["Capabilities"]["RAID Level Supported"];
@@ -1939,6 +1950,27 @@ class Raid extends PSI_Plugin
                                     break;
                                 case 'PB':
                                     $this->_result[$prog][$uname]['cache_size'] = 1024*1024*1024*1024*1024*$value[1];
+                                }
+                            }
+                            if (isset($controller["HwCfg"]["CacheVault Flash Size"]) && preg_match("/^([\d\.]+)\s*(\S+)$/", $controller["HwCfg"]["CacheVault Flash Size"], $value)) {
+                                switch ($value[2]) {
+                                case 'B':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = $value[1];
+                                    break;
+                                case 'KB':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = 1024*$value[1];
+                                    break;
+                                case 'MB':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = 1024*1024*$value[1];
+                                    break;
+                                case 'GB':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = 1024*1024*1024*$value[1];
+                                    break;
+                                case 'TB':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = 1024*1024*1024*1024*$value[1];
+                                    break;
+                                case 'PB':
+                                    $this->_result[$prog][$uname]['cachevault_size'] = 1024*1024*1024*1024*1024*$value[1];
                                 }
                             }
                             if (isset($topol["Size"]) && isset($topol["Unit"])) {
@@ -1966,6 +1998,12 @@ class Raid extends PSI_Plugin
                                 switch ($topol["PDC"]) {
                                 case 'dflt':
                                     $this->_result[$prog][$uname]['diskcache'] = "default";
+                                    break;
+                                case 'dsbl':
+                                    $this->_result[$prog][$uname]['diskcache'] = "disabled";
+                                    break;
+                                case 'enbl':
+                                    $this->_result[$prog][$uname]['diskcache'] = "enabled";
                                     break;
                                 default:
                                     $this->_result[$prog][$uname]['diskcache'] = strtolower($topol["PDC"]);
@@ -2086,6 +2124,10 @@ class Raid extends PSI_Plugin
                                                 case 'Offln':
                                                     $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Offline";
                                                     $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "F";
+                                                    break;
+                                                case 'Rbld':
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Rebuild";
+                                                    $this->_result[$prog][$uname]['items'][$topol["DID"]]['status'] = "W";
                                                     break;
                                                 default:
                                                     $this->_result[$prog][$uname]['items'][$topol["DID"]]['info'] = "Unknown";
@@ -2215,16 +2257,25 @@ class Raid extends PSI_Plugin
                                 } else {
                                     $this->_result[$prog][$cname]['status'] = 'Unknown';
                                 }
-                                if (isset($controller["BBU_Info"]["values"][0])) {
-                                    if (isset($controller["BBU_Info"]["values"][0]["State"])) {
-                                       if (($state = $controller["BBU_Info"]["values"][0]["State"]) === "Optimal") {
-                                            $this->_result[$prog][$cname]['battery'] = "good";
-                                        } else {
-                                            $this->_result[$prog][$cname]['battery'] = $state;
-                                        }
+                                if (isset($controller["HwCfg"]["BBU"]) && ($controller["HwCfg"]["BBU"] === "Present")) {
+                                    if (isset($controller["BBU_Info"]["values"][0])) {
+                                        $bbuinfo = "BBU_Info";
+                                    } elseif (isset($controller["Cachevault_Info"]["values"][0])) {
+                                        $bbuinfo = "Cachevault_Info";
+                                    } else {
+                                        $bbuinfo = "";
                                     }
-                                    if (isset($controller["BBU_Info"]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/", $controller["BBU_Info"]["values"][0]["Temp"], $batt)) {
-                                        $this->_result[$prog][$cname]['batttemp'] = $batt[1];
+                                    if ($bbuinfo !== "") {
+                                        if (isset($controller[$bbuinfo]["values"][0]["State"])) {
+                                            if (($state = $controller[$bbuinfo]["values"][0]["State"]) === "Optimal") {
+                                                $this->_result[$prog][$cname]['battery'] = "good";
+                                            } else {
+                                                $this->_result[$prog][$cname]['battery'] = $state;
+                                            }
+                                        }
+                                        if (isset($controller[$bbuinfo]["values"][0]["Temp"]) && preg_match("/^(\d+)C$/", $controller[$bbuinfo]["values"][0]["Temp"], $batt)) {
+                                            $this->_result[$prog][$cname]['batttemp'] = $batt[1];
+                                        }
                                     }
                                 }
                                 if (isset($controller["Capabilities"]["RAID Level Supported"])) $this->_result[$prog][$cname]['supported'] = $controller["Capabilities"]["RAID Level Supported"];
@@ -2247,6 +2298,27 @@ class Raid extends PSI_Plugin
                                         break;
                                     case 'PB':
                                         $this->_result[$prog][$cname]['cache_size'] = 1024*1024*1024*1024*1024*$value[1];
+                                    }
+                                }
+                                if (isset($controller["HwCfg"]["CacheVault Flash Size"]) && preg_match("/^([\d\.]+)\s*(\S+)$/", $controller["HwCfg"]["CacheVault Flash Size"], $value)) {
+                                    switch ($value[2]) {
+                                    case 'B':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = $value[1];
+                                        break;
+                                    case 'KB':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = 1024*$value[1];
+                                        break;
+                                    case 'MB':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = 1024*1024*$value[1];
+                                        break;
+                                    case 'GB':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = 1024*1024*1024*$value[1];
+                                        break;
+                                    case 'TB':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = 1024*1024*1024*1024*$value[1];
+                                        break;
+                                    case 'PB':
+                                        $this->_result[$prog][$cname]['cachevault_size'] = 1024*1024*1024*1024*1024*$value[1];
                                     }
                                 }
 
@@ -2389,6 +2461,7 @@ class Raid extends PSI_Plugin
                     if (isset($device['readpolicy'])) $dev->addAttribute("ReadPolicy", $device["readpolicy"]);
                     if (isset($device['writepolicy'])) $dev->addAttribute("WritePolicy", $device["writepolicy"]);
                     if (isset($device['cache_size'])) $dev->addAttribute("Cache_Size", $device["cache_size"]);
+                    if (isset($device['cachevault_size'])) $dev->addAttribute("Cachevault_Size", $device["cachevault_size"]);
                     if (isset($device['diskcache'])) $dev->addAttribute("DiskCache", $device["diskcache"]);
                     if (isset($device['bad_blocks'])) $dev->addAttribute("Bad_Blocks", $device["bad_blocks"]);
 
