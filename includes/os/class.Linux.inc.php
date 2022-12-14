@@ -306,9 +306,12 @@ class Linux extends OS
                 if ($ip != $result) {
                     $this->sys->setHostname(gethostbyaddr($ip));
                 }
-            } elseif (CommonFunctions::executeProgram('hostname', '', $ret)) {
+            } elseif (CommonFunctions::executeProgram('hostname', '', $ret, false)) {
+                $this->sys->setHostname($ret);
+            } elseif (CommonFunctions::executeProgram('uname', '-n', $ret, false)) {
                 $this->sys->setHostname($ret);
             }
+
         }
     }
 
@@ -692,6 +695,9 @@ class Linux extends OS
             // IBM/S390
             $bufr = preg_replace('/\ncpu number\s*:\s*(\d+)\r?\ncpu MHz dynamic\s*:\s*(\d+)/m', "\nprocessor:$1\nclock:$2", $bufr);
 
+            // machine
+            $bufr = preg_replace('/(\nmachine\s*:\s*[^\r\n]+)/m', "$1\n", $bufr);
+           
             $processors = preg_split('/\s?\n\s?\n/', trim($bufr));
 
             //first stage
@@ -724,6 +730,7 @@ class Linux extends OS
                         case 'cpu variant':
                             $_vari = $arrBuff1;
                             break;
+                        case 'machine':
                         case 'hardware':
                             $_hard = $arrBuff1;
                             break;
@@ -1514,7 +1521,7 @@ class Linux extends OS
             $speedinfo = "";
             $dev = null;
             foreach ($lines as $line) {
-                if (preg_match("/^\d+:\s+([^\s:]+)/", $line, $ar_buf)) {
+                if (preg_match("/^\d+:\s+([^\s:@]+)/", $line, $ar_buf)) {
                     if ($was) {
                         if ($macaddr != "") {
                             $dev->setInfo($macaddr.($dev->getInfo()?';'.$dev->getInfo():''));
@@ -1528,12 +1535,31 @@ class Linux extends OS
                     $macaddr = "";
                     $dev = new NetDevice();
                     $dev->setName($ar_buf[1]);
-                    if (CommonFunctions::executeProgram('ip', '-s link show '.$ar_buf[1], $bufr2, PSI_DEBUG) && ($bufr2!="")
+                    if (CommonFunctions::executeProgram('ip', '-s link show '.$ar_buf[1], $bufr2, false) && ($bufr2!="")
                        && preg_match("/\n\s+RX:\s[^\n]+\n\s+(\d+)\s+\d+\s+(\d+)\s+(\d+)[^\n]+\n\s+TX:\s[^\n]+\n\s+(\d+)\s+\d+\s+(\d+)\s+(\d+)/m", $bufr2, $ar_buf2)) {
                         $dev->setRxBytes($ar_buf2[1]);
                         $dev->setTxBytes($ar_buf2[4]);
                         $dev->setErrors($ar_buf2[2]+$ar_buf2[5]);
                         $dev->setDrops($ar_buf2[3]+$ar_buf2[6]);
+                    } elseif (CommonFunctions::executeProgram('ifconfig', $ar_buf[1], $bufr2, false) && ($bufr2!="")) {
+                        if (preg_match('/\sRX bytes:(\d+)\s/im', $bufr2, $ar_buf2)) {
+                            $dev->setRxBytes($ar_buf2[1]);
+                        }
+                        if (preg_match('/\sTX bytes:(\d+)\s/im', $bufr2, $ar_buf2)) {
+                            $dev->setTxBytes($ar_buf2[1]);
+                        }
+                        $errors = 0;
+                        $drops = 0;
+                        if (preg_match('/\sRX packets:\d+\serrors:(\d+)\sdropped:(\d+)/im', $bufr2, $ar_buf2)) {
+                            $errors +=$ar_buf2[1];
+                            $drops +=$ar_buf2[2];
+                        }
+                        if (preg_match('/\sTX packets:\d+\serrors:(\d+)\sdropped:(\d+)/im', $bufr2, $ar_buf2)) {
+                            $errors +=$ar_buf2[1];
+                            $drops +=$ar_buf2[2];
+                        }
+                        $dev->setErrors($errors);
+                        $dev->setDrops($drops);
                     }
                     $was = true;
                     if (defined('PSI_SHOW_NETWORK_INFOS') && (PSI_SHOW_NETWORK_INFOS)) {
